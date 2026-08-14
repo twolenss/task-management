@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "id": "Create a new project",
+      "title": "Build task manager UI",
+      "description": "Create the dashboard, task list, task form, filters, and stats sections.",
+      "status": "todo",
+      "priority": "high",
+      "dueDate": "2026-08-20",
+      "createdAt": "2026-08-14T09:30:00.000Z"
+    },
+    {
+      "id": "Refactor task API logic",
+      "title": "Refactor task API logic",
+      "description": "Move fetch logic into taskService.js and connect it to useTasks.js.",
+      "status": "in-progress",
+      "priority": "medium",
+      "dueDate": "2026-08-18",
+      "createdAt": "2026-08-14T10:15:00.000Z"
+    }
+  ]
+}
