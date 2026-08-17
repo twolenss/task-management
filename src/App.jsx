@@ -1,15 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import "./App.css";
+import TaskStats from "./components/TaskStats";
+import TaskToolbar from "./components/TaskToolbar";
+import TaskForm from "./components/TaskForm";
+import TaskList from "./components/TaskList";
+import useTasks from "./hooks/useTasks";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const { tasks } = useTasks();
   return (
-    <></>
-  )
+    <main className="app-main">
+      <div className="stats-comp">
+        <TaskStats />
+      </div>
+      <div className="toolbar-comp">
+        <TaskToolbar />
+      </div>
+      <div className="form-comp">
+        <TaskForm />
+      </div>
+      <div className="list-comp">
+        <TaskList tasks={tasks} />
+      </div>{" "}
+    </main>
+  );
 }
 
-export default App
+export default App;

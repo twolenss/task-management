@@ -8,29 +8,17 @@ const INITIAL_FORM = {
   dueDate: '',
 }
 
-function TaskForm({ task, onSubmit, onCancel, isSubmitting = false }) {
-  const [formData, setFormData] = useState(INITIAL_FORM)
+function TaskForm({
+  task,
+  onSubmit,
+  onCancel,
+  isSubmitting = false,
+  createTaskHandler,
+}) {
+  const formData = { ...INITIAL_FORM, ...task }
+  const formKey = task?.id ?? 'new-task'
 
-  useEffect(() => {
-    if (task) {
-      setFormData({
-        title: task.title ?? '',
-        description: task.description ?? '',
-        status: task.status ?? 'todo',
-        priority: task.priority ?? 'medium',
-        dueDate: task.dueDate ?? '',
-      })
-      return
-    }
-
-    setFormData(INITIAL_FORM)
-  }, [task])
-
-  function updateField(field, value) {
-    setFormData((current) => ({ ...current, [field]: value }))
-  }
-
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
 
     onSubmit?.({
