@@ -22,7 +22,12 @@ function formatDate(dateValue) {
   }).format(new Date(dateValue))
 }
 
-function TaskItem({ task, onEdit, onDelete, onToggleComplete }) {
+function TaskItem({ 
+  task,
+  onEdit,
+  onDelete,
+  completeTaskHandler
+  }) {
   if (!task) {
     return null
   }
@@ -52,7 +57,7 @@ function TaskItem({ task, onEdit, onDelete, onToggleComplete }) {
       <div className="task-item__actions">
         <button
           type="button"
-          onClick={() => onToggleComplete?.(task)}
+          onClick={() => completeTaskHandler?.(task)}
           disabled={isCompleted}
         >
           {isCompleted ? 'Completed' : 'Complete'}

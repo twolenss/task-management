@@ -1,39 +1,38 @@
-import EmptyState from './EmptyState'
-import TaskItem from './TaskItem'
+import EmptyState from "./EmptyState";
+import LoadingState from "./LoadingState";
+import ErrorState from "./ErrorState";
+import TaskItem from "./TaskItem";
+
 
 function TaskList({
   tasks = [],
-  onEditTask,
-  onDeleteTask,
-  onToggleComplete,
-  emptyTitle = 'No tasks found',
-  emptyMessage = 'Create a task or adjust your filters to see work here.',
+  error,
+  isLoading,
+  refetch,
+  onEdit,
+  onDelete,
+  completeTaskHandler,
+  emptyTitle = "No tasks found",
+
+  emptyMessage = "Create a task or adjust your filters to see work here.",
   onAddTask,
 }) {
-  if (tasks.length === 0) {
-    return (
-      <EmptyState
-        title={emptyTitle}
-        message={emptyMessage}
-        actionLabel={onAddTask ? 'Add task' : undefined}
-        onAction={onAddTask}
-      />
-    )
+  const taskItems = Array.isArray(tasks) ? tasks : [];
+
+  if (isLoading) return <LoadingState />;
+  if (error) return <ErrorState message={error} onAction={refetch} />;
+  if (taskItems.length === 0) {
+    return <EmptyState title={emptyTitle} message={emptyMessage} actionLabel={onAddTask ? "Add task" : undefined} onAction={onAddTask} />;
   }
 
   return (
     <div className="task-list" aria-label="Task list">
-      {tasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          task={task}
-          onEdit={onEditTask}
-          onDelete={onDeleteTask}
-          onToggleComplete={onToggleComplete}
-        />
-      ))}
+      {!isLoading &&
+        taskItems.map((task) => (
+          <TaskItem key={task.id} task={task} onEdit={onEdit} onDelete={onDelete} completeTaskHandler={completeTaskHandler} />
+        ))}
     </div>
-  )
+  );
 }
 
-export default TaskList
+export default TaskList;
