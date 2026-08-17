@@ -26,7 +26,7 @@ function TaskList({
   }
 
   return (
-    <div className="task-list" aria-label="Task list">
+    <div className="task-list space-y-3" aria-label="Task list">
       {!isLoading &&
         taskItems.map((task) => (
           <TaskItem key={task.id} task={task} onEdit={onEdit} onDelete={onDelete} completeTaskHandler={completeTaskHandler} />

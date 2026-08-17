@@ -9,7 +9,7 @@ export function filterTasks(tasks, { searchQuery = "", status = "all", priority 
 }
 
 export function sortTasks(tasks, sortBy = "createdAt") {
-  const copy = [...tasks]; // never mutate the original array!
+  const copy = [...tasks]; 
   switch (sortBy) {
     case "dueDate":
       return copy.sort((a, b) => (a.dueDate > b.dueDate ? 1 : -1));

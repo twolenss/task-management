@@ -18,23 +18,11 @@ const useTasks = () => {
       setIsLoading(false);
     }
   }, []);
+
   useEffect(() => {
-    let ignore = false;
-    async function load() {
-      try {
-        const data = await getTasks();
-        if (!ignore) setTasks(Array.isArray(data) ? data : []);
-      } catch (error) {
-        if (!ignore) setError(error.message || "An error occurred while fetching tasks.");
-      } finally {
-        if (!ignore) setIsLoading(false);
-      }
-    }
-    load();
-    return () => {
-      ignore = true;
-    };
-  }, []);
+    fetchTasks();
+  }, [fetchTasks]);
+
   const createTaskHandler = async (task) => {
     const createdTask = await createTask(task);
     setTasks((prevTasks) => [...prevTasks, createdTask]);

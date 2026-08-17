@@ -10,22 +10,13 @@
       "id": "dpi7fjc"
     },
     {
-      "title": "Use ai",
-      "description": "Seek help and utilize the use of AI for coding",
-      "status": "todo",
-      "priority": "medium",
-      "dueDate": "2026-08-18",
-      "id": "JPhjnXaG_AE",
-      "createdAt": "2026-08-17T08:45:33.314Z"
-    },
-    {
-      "title": "as",
-      "description": "",
-      "status": "todo",
+      "title": "YTA niches",
+      "description": "Wait 24hrs for the pending of Advanced feature eligibility.",
+      "status": "in-progress",
       "priority": "low",
-      "dueDate": "2026-08-18",
-      "id": "M1QbeSd2m9I",
-      "createdAt": "2026-08-17T09:55:40.411Z"
+      "dueDate": "2026-08-19",
+      "createdAt": "2026-08-17T13:39:15.364Z",
+      "id": "n22hhiq2wRk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

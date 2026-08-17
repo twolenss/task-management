@@ -1,12 +1,9 @@
-export function validateTask({ title, description, status, priority, dueDate }) {
+export function validateTask({ title, status, priority, dueDate }) {
   const errors = {};
   const today = new Date().toLocaleDateString("en-CA");
 
   if (!title || !title.trim()) {
     errors.title = "Title is required";
-  }
-  if (!description || !description.trim()) {
-    errors.description = "Description is required";
   }
   if (!status) {
     errors.status = "Status is required";
