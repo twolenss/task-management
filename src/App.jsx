@@ -5,8 +5,9 @@ import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import useTasks from "./hooks/useTasks";
 
-function App() {
-  const { tasks } = useTasks();
+function App({  }) {
+  const { tasks ,error , isLoading , createTaskHandler, updateTaskHandler, deleteTaskHandler,completeTaskHandler } = useTasks();
+  
   return (
     <main className="app-main">
       <div className="stats-comp">
@@ -16,10 +17,10 @@ function App() {
         <TaskToolbar />
       </div>
       <div className="form-comp">
-        <TaskForm />
+        <TaskForm tasks={tasks} createTaskHandler={createTaskHandler} /> 
       </div>
       <div className="list-comp">
-        <TaskList tasks={tasks} />
+        <TaskList tasks={tasks} error={error} isLoading={isLoading} updateTaskHandler={updateTaskHandler} deleteTaskHandler={deleteTaskHandler} completeTaskHandler={completeTaskHandler} />
       </div>{" "}
     </main>
   );
