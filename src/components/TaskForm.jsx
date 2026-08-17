@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { validateTask } from "../utils/validation";
+
 function TaskForm({ task, onCancel, createTaskHandler, updateTaskHandler }) {
   // const formData = { ...INITIAL_FORM, ...task }
   // const formKey = task?.id ?? 'new-task'
@@ -9,15 +11,17 @@ function TaskForm({ task, onCancel, createTaskHandler, updateTaskHandler }) {
   const [taskPriority, setTaskPriority] = useState(task?.priority ?? "");
   const [taskDueDate, setTaskDueDate] = useState(task?.dueDate ?? "");
   const today = new Date().toLocaleDateString("en-CA");
-  // const [formData, setFormData] = useState(formData)
-  // const [isSubmitting, setIsSubmitting] = useState(false)
+
   const statusOptions = ["todo", "in-progress", "completed"];
   const priorityOptions = ["low", "medium", "high"];
+  const errors = validateTask({ title: taskTitle, status: taskStatus, priority: taskPriority, dueDate: taskDueDate });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
 
   async function handleSubmit(event) {
     event.preventDefault();
-    if (!taskTitle.trim() || !taskStatus || !taskPriority || !taskDueDate) {
-      alert("Please fill in all required fields.");
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
       return;
     }
     const formData = {
@@ -28,23 +32,27 @@ function TaskForm({ task, onCancel, createTaskHandler, updateTaskHandler }) {
       dueDate: taskDueDate,
     };
 
-    if (task) {
-      await updateTaskHandler(formData, task.id);
-      onCancel?.();
-      return;
+    setIsSubmitting(true);
+    try {
+      if (task) {
+        await updateTaskHandler(formData, task.id);
+        onCancel?.();
+      } else {
+        await createTaskHandler({
+          ...formData,
+          id: crypto.randomUUID(),
+          createdAt: new Date().toISOString(),
+        });
+        setTaskTitle("");
+        setTaskDescription("");
+        setTaskStatus("");
+        setTaskPriority("");
+        setTaskDueDate("");
+      }
+      setFormErrors({});
+    } finally {
+      setIsSubmitting(false);
     }
-
-    await createTaskHandler({
-      ...formData,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-    });
-
-    setTaskTitle("");
-    setTaskDescription("");
-    setTaskStatus("");
-    setTaskPriority("");
-    setTaskDueDate("");
   }
 
   return (
@@ -52,11 +60,13 @@ function TaskForm({ task, onCancel, createTaskHandler, updateTaskHandler }) {
       <label>
         <span>Title</span>
         <input name="title" type="text" value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} required />
+        {formErrors.title && <span className="error">{formErrors.title}</span>}
       </label>
 
       <label>
         <span>Description</span>
         <textarea name="description" rows="4" value={taskDescription} onChange={(e) => setTaskDescription(e.target.value)} />
+        {formErrors.description && <span className="error">{formErrors.description}</span>}
       </label>
 
       <div className="task-form-row">
@@ -70,6 +80,7 @@ function TaskForm({ task, onCancel, createTaskHandler, updateTaskHandler }) {
               </option>
             ))}
           </select>
+          {formErrors.status && <span className="error">{formErrors.status}</span>}
         </label>
 
         <label>
@@ -82,27 +93,19 @@ function TaskForm({ task, onCancel, createTaskHandler, updateTaskHandler }) {
               </option>
             ))}
           </select>
+          {formErrors.priority && <span className="error">{formErrors.priority}</span>}
         </label>
 
         <label>
           <span>Due date</span>
           <input name="dueDate" type="date" value={taskDueDate} onChange={(e) => setTaskDueDate(e.target.value)} min={today} />
+          {formErrors.dueDate && <span className="error">{formErrors.dueDate}</span>}
         </label>
       </div>
 
-      <button className="primary-btn" type="submit">
+      <button className="primary-btn" type="submit" disabled={isSubmitting}>
         {task ? "Save Changes" : "Save Task"}
       </button>
-      {/* <div className="task-form__actions">
-        {onCancel ? (
-          <button type="button" onClick={onCancel}>
-            Cancel
-          </button>
-        ) : null}
-        <button className="primary-button" type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : 'Save task'}
-        </button>
-      </div> */}
     </form>
   );
 }

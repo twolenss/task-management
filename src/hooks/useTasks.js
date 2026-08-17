@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createTask, getTasks, updateTask, deleteTask } from "../services/taskService";
 
 const useTasks = () => {
@@ -6,7 +6,7 @@ const useTasks = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -17,11 +17,24 @@ const useTasks = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-  useEffect(() => {
-    fetchTasks();
   }, []);
-
+  useEffect(() => {
+    let ignore = false;
+    async function load() {
+      try {
+        const data = await getTasks();
+        if (!ignore) setTasks(Array.isArray(data) ? data : []);
+      } catch (error) {
+        if (!ignore) setError(error.message || "An error occurred while fetching tasks.");
+      } finally {
+        if (!ignore) setIsLoading(false);
+      }
+    }
+    load();
+    return () => {
+      ignore = true;
+    };
+  }, []);
   const createTaskHandler = async (task) => {
     const createdTask = await createTask(task);
     setTasks((prevTasks) => [...prevTasks, createdTask]);

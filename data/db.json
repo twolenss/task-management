@@ -5,18 +5,27 @@
       "description": "Make it work",
       "status": "in-progress",
       "priority": "medium",
-      "dueDate": "2026-08-16",
+      "dueDate": "2026-08-17",
       "createdAt": "2026-08-15T14:41:01.503Z",
       "id": "dpi7fjc"
     },
     {
-      "title": "Phase 2",
-      "description": "Adding handlers in task item component",
-      "status": "in-progress",
+      "title": "Use ai",
+      "description": "Seek help and utilize the use of AI for coding",
+      "status": "todo",
+      "priority": "medium",
+      "dueDate": "2026-08-18",
+      "id": "JPhjnXaG_AE",
+      "createdAt": "2026-08-17T08:45:33.314Z"
+    },
+    {
+      "title": "as",
+      "description": "",
+      "status": "todo",
       "priority": "low",
-      "dueDate": "2026-08-16",
-      "createdAt": "2026-08-16T14:43:31.256Z",
-      "id": "w9BowMH"
+      "dueDate": "2026-08-18",
+      "id": "M1QbeSd2m9I",
+      "createdAt": "2026-08-17T09:55:40.411Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
